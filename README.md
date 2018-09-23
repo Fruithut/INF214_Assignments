@@ -1,2 +1,2 @@
 # INF214_Assignments
-Solutions for INF214 Concurrent Programming
+Solutions for assignments given in INF214 Concurrent Programming
