@@ -51,13 +51,16 @@ public:
     }
 
     E dequeue() {
-        if (empty()) throw "empty queue";
-
         generalLock.P();
+        //evaluate queue-size without interference
+        if (empty()) {
+            generalLock.V();
+            throw "empty queue";
+        }
+
         node<E>* oldHead = head;
         head = head->next;
         if (head == nullptr) rear = nullptr; // removed the last element
-
         _size = _size - 1;
         generalLock.V();
 

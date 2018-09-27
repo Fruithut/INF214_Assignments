@@ -50,14 +50,14 @@ public:
     }
 
     E dequeue() {
-        if (empty()) throw "empty queue";
-
         A<node<E>*> oldHead = nullptr;
         ATO
+        //evaluate queue-size without interference
+        if (empty()) throw "empty queue";
+
         oldHead = head;
         head = head.read()->next;
         if (head == nullptr) rear = nullptr; // removed the last element
-
         _size = _size - 1;
         MIC;
 
