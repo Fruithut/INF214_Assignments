@@ -19,6 +19,9 @@ int main() {
     assert(result1 == 1);
     int result2 = gcd(25235, 2345);
     assert(result2 == 35);
-    int result3 = gcd(310, 150);
+    int result3 = gcd(-310, -150);
     assert(result3 == 10);
+    
+    // this will not terminate!
+    //log(gcd(-10,30));
 }
