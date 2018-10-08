@@ -7,30 +7,28 @@ class BankAccount : monitor {
     cond withdrawCondition;
     int balance;
     int queueNumber = 0;
-    int queueNumberInTurn = 0;
+    int nextInLine = 0;
 public:
     BankAccount(int balance): balance(balance) {}
 
     int withdraw(int amount) {
         SYNC;
 
-        // pick queue number
+        // get queue number
         queueNumMutex.P();
-            int localQueueNumber = queueNumber;
-            queueNumber++;
+        int localQueueNumber = queueNumber;
+        queueNumber++;
         queueNumMutex.V();
 
-        while (balance < amount || localQueueNumber != queueNumberInTurn) {
-            alang::logl("[W] WAITING FOR WITHDRAWAL - AMOUNT: ", amount, " QUEUE NUM: ", localQueueNumber, " CURRENT QUEUE NR: ", queueNumberInTurn);
+        while (balance < amount || localQueueNumber != nextInLine) {
+            logl("[W] WAITING FOR WITHDRAWAL - AMOUNT: ", amount, " QUEUE NUM: ", localQueueNumber, " NEXT IN LINE NUM: ", nextInLine);
             wait(withdrawCondition);
         }
 
         // withdraw and set next queue number's turn
-        balanceMutex.P();
-            alang::logl("[-] WITHDRAWING - AMOUNT: ", amount, " QUEUE NUM OF WITHDRAWAL: ", localQueueNumber);
-            balance -= amount;
-            queueNumberInTurn++;
-        balanceMutex.V();
+        logl("[-] WITHDRAWING - AMOUNT: ", amount, " QUEUE NUM OF WITHDRAWAL: ", localQueueNumber);
+        balanceMutex.P(); balance -= amount; balanceMutex.V();
+        nextInLine++;
 
         // finished withdrawing, signal waiting withdrawals
         signal_all(withdrawCondition);
@@ -39,10 +37,9 @@ public:
 
     int deposit(int amount) {
         SYNC;
-        balanceMutex.P();
-            alang::logl("[+] DEPOSITING - AMOUNT: ", amount);
-            balance += amount;
-        balanceMutex.V();
+
+        logl("[+] DEPOSITING - AMOUNT: ", amount);
+        balanceMutex.P(); balance += amount; balanceMutex.V();
 
         // balance has increased, signal waiting withdrawals
         signal_all(withdrawCondition);
