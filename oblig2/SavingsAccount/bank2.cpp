@@ -20,15 +20,19 @@ public:
         queueNumber++;
         queueNumMutex.V();
 
+        balanceMutex.P();
         while (balance < amount || localQueueNumber != nextInLine) {
             logl("[W] WAITING FOR WITHDRAWAL - AMOUNT: ", amount, " QUEUE NUM: ", localQueueNumber, " NEXT IN LINE NUM: ", nextInLine);
+            balanceMutex.V();
             wait(withdrawCondition);
+            balanceMutex.P();
         }
 
         // withdraw and set next queue number's turn
         logl("[-] WITHDRAWING - AMOUNT: ", amount, " QUEUE NUM OF WITHDRAWAL: ", localQueueNumber);
-        balanceMutex.P(); balance -= amount; balanceMutex.V();
+        balance -= amount;
         nextInLine++;
+        balanceMutex.V();
 
         // finished withdrawing, signal waiting withdrawals
         signal_all(withdrawCondition);
@@ -37,7 +41,6 @@ public:
 
     int deposit(int amount) {
         SYNC;
-
         logl("[+] DEPOSITING - AMOUNT: ", amount);
         balanceMutex.P(); balance += amount; balanceMutex.V();
 

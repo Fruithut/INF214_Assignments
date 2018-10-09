@@ -40,7 +40,7 @@ We know that the following properties hold for gcd:
  3. gcd(x, y) = gcd(y, x)
 
 To prove the termination state: ...
-Needs: 
+Needs:
 
 - reasoning why every Hoare-triple in the program holds.
 - for all pairs of consequtive statements, reasoning why the post-condition of the previous statement implies the precondition of the next.

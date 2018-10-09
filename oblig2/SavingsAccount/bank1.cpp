@@ -10,11 +10,16 @@ class BankAccount : monitor {
 
         int withdraw(int amount) {
             SYNC;
+            
+            balanceMutex.P();
             while (balance < amount) {
+                balanceMutex.V();
                 wait(withdrawCondition);
+                balanceMutex.P();
             }
 
-            balanceMutex.P(); balance = balance - amount; balanceMutex.V();
+            balance = balance - amount; 
+            balanceMutex.V();
 
             //finished withdrawing, signal waiting withdrawals
             signal(withdrawCondition);
