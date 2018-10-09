@@ -13,12 +13,14 @@ class BankAccount : monitor {
             
             balanceMutex.P();
             while (balance < amount) {
+                logl("[W] WAITING FOR WITHDRAWAL - AMOUNT: ", amount);
                 balanceMutex.V();
                 wait(withdrawCondition);
                 balanceMutex.P();
             }
 
-            balance = balance - amount; 
+            logl("[-] WITHDRAWING - AMOUNT: ", amount);
+            balance -= amount; 
             balanceMutex.V();
 
             //finished withdrawing, signal waiting withdrawals
@@ -29,7 +31,10 @@ class BankAccount : monitor {
 
         int deposit(int amount) {
             SYNC;
-            balanceMutex.P(); balance = balance + amount; balanceMutex.V();
+            balanceMutex.P(); 
+            logl("[+] DEPOSITING - AMOUNT: ", amount);
+            balance += amount; 
+            balanceMutex.V();
 
             //balance has increased, signal waiting withdrawals
             signal(withdrawCondition);
@@ -43,7 +48,7 @@ int main() {
     BankAccount b(0);
 
     {
-        int N = 10000;
+        int N = 100;
 
         processes ps;
         for (int i = 0; i < N; ++i) {
@@ -57,6 +62,6 @@ int main() {
     }
     //initial balance should remain unchanged after processes have finished
 
-    alang::logl("Balance: ", b.withdraw(0));
+    alang::logl("[$] BALANCE: ", b.withdraw(0));
     if (b.withdraw(0) != 0) throw "Balance differs from initial value";
 }

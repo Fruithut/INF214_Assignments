@@ -41,8 +41,10 @@ public:
 
     int deposit(int amount) {
         SYNC;
+        balanceMutex.P();
         logl("[+] DEPOSITING - AMOUNT: ", amount);
-        balanceMutex.P(); balance += amount; balanceMutex.V();
+        balance += amount; 
+        balanceMutex.V();
 
         // balance has increased, signal waiting withdrawals
         signal_all(withdrawCondition);
