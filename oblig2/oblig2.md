@@ -1,4 +1,4 @@
-# Oblig 2
+ # Oblig 2
 
 ## Question 1
 
@@ -47,24 +47,49 @@ Needs:
 - for all pairs of consequtive statements, reasoning why the post-condition of the previous statement implies the precondition of the next.
 - To get you started, consider using gcd(x,y)=gcd(n,m) as the loop invariant
 
-*CONTINUE HERE*
+LOOP INVARIANT {I: gcd(x,y) = gcd(n,m)}
 
-LOOP INVARIANT {P: gcd(x,y) = gcd(n,m) ^ B}
-               {B: x > 0 ^ b > 0}
+    ```cs
 
-Step 1:
-{n > 0 ∧ m > 0}
-
-    ```c++
     int gcd(int n, int m) {
-    A<int> x = n; A<int> y = m;
-    {P}
-    while (x != y) {
-      CO([&]{ ATO if (x > y)  x = x - y; MIC; },
-         [&]{ ATO if (x < y)  y = y - x; MIC; });
+        {n > 0 ∧ m > 0}
+        A<int> x = n; 
+        A<int> y = m;
+        {x = n ^ y = n}
+
+        {gcd(x,y) = gcd(n,m)}
+
+        while (x != y) {
+
+          CO ([&]{ ATO 
+
+            {gcd(x,y) = gcd(n,m)}
+
+            if (x > y)  x = x - y;
+
+            {gcd(x,y) = gcd(n,m)}
+
+          MIC; },
+
+          
+          [&]{ ATO 
+
+            {gcd(x,y) = gcd(n,m)}
+
+            if (x < y)  y = y - x; 
+
+            {gcd(x,y) = gcd(n,m)}
+
+          MIC; });
+
+        }
+        
+        {gcd(x,y) = gcd(n,m)}
+        
+
+        {x = gcd(n, m)}
+        return x;
     }
 
-    return x;
-    }
     ```
-{x = gcd(n, m)}
+
