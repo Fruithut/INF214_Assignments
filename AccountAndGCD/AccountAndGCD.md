@@ -1,17 +1,17 @@
-# Oblig 2
+# Concurrent account and GCD
 
-## Question 1
+## Question 1: The Savings Account Problem
 
-### "bank1.cpp" invariant
+### Invariant of monitor: "bank1.cpp"
 
 balance >= 0
 
-### "bank2.cpp" invariant
+### Invariant of monitor: "bank2.cpp"
 
 balance >= 0 AND (queueNumber >= nextInLine OR queueNumber != nextInLine)
 (this invariant holds if there are less threads than the max value of the integer type from negative to positive)
 
-## Question 2
+## Question 2: Greatest Common Divisor
 
 ### Termination
 
@@ -82,4 +82,4 @@ LOOP INVARIANT {I: gcd(x,y) = gcd(n,m)}
 
     ```
 
-![Written proof.](https://github.com/Fruithut/INF214_Assignments/blob/master/oblig2/ProofGCD.png)
+![Written proof.](https://github.com/Fruithut/INF214_Assignments/blob/master/AccountAndGCD/ProofGCD.png)
