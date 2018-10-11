@@ -1,4 +1,4 @@
- # Oblig 2
+# Oblig 2
 
 ## Question 1
 
@@ -40,56 +40,46 @@ We know that the following properties hold for gcd:
  2. gcd(x, x) = x
  3. gcd(x, y) = gcd(y, x)
 
-To prove the termination state: ...
-Needs:
-
-- reasoning why every Hoare-triple in the program holds.
-- for all pairs of consequtive statements, reasoning why the post-condition of the previous statement implies the precondition of the next.
-- To get you started, consider using gcd(x,y)=gcd(n,m) as the loop invariant
-
 LOOP INVARIANT {I: gcd(x,y) = gcd(n,m)}
 
     ```cs
 
+    //PRE: {n > 0 ∧ m > 0}
     int gcd(int n, int m) {
-        {n > 0 ∧ m > 0}
-        A<int> x = n; 
+        A<int> x = n;
         A<int> y = m;
-        {x = n ^ y = n}
+        //POST: {x > 0 ^ y > 0} (both assignments)
 
-        {gcd(x,y) = gcd(n,m)}
-
+        //PRE: {gcd(x,y) = gcd(n,m)}
         while (x != y) {
 
-          CO ([&]{ ATO 
-
-            {gcd(x,y) = gcd(n,m)}
-
-            if (x > y)  x = x - y;
-
-            {gcd(x,y) = gcd(n,m)}
-
+          CO ([&]{ ATO
+            //PRE: {gcd(x,y) = gcd(n,m) ^ x > y}
+            if (x > y) {
+              //PRE: {gcd(x,y) = gcd(n,m)}
+              x = x - y;
+              //POST: {gcd(x,y) = gcd(n,m)}
+            }
+            //POST: {gcd(x,y) = gcd(n,m)}
           MIC; },
 
-          
-          [&]{ ATO 
-
-            {gcd(x,y) = gcd(n,m)}
-
-            if (x < y)  y = y - x; 
-
-            {gcd(x,y) = gcd(n,m)}
-
+          [&]{ ATO
+            //PRE: {(gcd(x,y) = gcd(n,m)) ^ (x < y)}
+            if (x < y) {
+              //PRE: {gcd(x,y) = gcd(n,m)}
+              y = y - x;
+              //POST: {gcd(x,y) = gcd(n,m)}
+            }  
+            //POST: {gcd(x,y) = gcd(n,m)}
           MIC; });
-
         }
-        
-        {gcd(x,y) = gcd(n,m)}
-        
 
-        {x = gcd(n, m)}
+        //POST: {gcd(x,y) = gcd(n,m)}
+
         return x;
     }
+    //POST: {x = gcd(n, m)}
 
     ```
 
+    ![Written proof.](https://github.com/Fruithut/INF214_Assignments/blob/master/oblig2/ProofGCD.png)
