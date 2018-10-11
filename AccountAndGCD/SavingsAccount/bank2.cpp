@@ -80,5 +80,5 @@ int main() {
     //initial balance should remain unchanged after processes have finished
 
     alang::logl("[$] BALANCE: ", b.withdraw(0));
-    //if (b.withdraw(0) != 0) throw "Balance differs from initial value";
+    if (b.withdraw(0) != 200) throw "Balance differs from initial value";
 }
