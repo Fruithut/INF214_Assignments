@@ -9,7 +9,7 @@ template <typename E> class node_iterator;  // forward declaration
 
 template <typename E>
 class node {
-    A<E> data;
+    E data;
     A<node<E>*> next;
     node(E d, node<E>* n) : data(d), next(n) {}
 public:

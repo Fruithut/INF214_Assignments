@@ -54,7 +54,7 @@ LOOP INVARIANT {I: gcd(x,y) = gcd(n,m)}
         while (x != y) {
 
           CO ([&]{ ATO
-            //PRE: {gcd(x,y) = gcd(n,m) ^ x > y}
+            //PRE: {(gcd(x,y) = gcd(n,m)) ^ (x > y)}
             if (x > y) {
               //PRE: {gcd(x,y) = gcd(n,m)}
               x = x - y;
