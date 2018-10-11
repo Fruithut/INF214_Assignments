@@ -82,4 +82,4 @@ LOOP INVARIANT {I: gcd(x,y) = gcd(n,m)}
 
     ```
 
-    ![Written proof.](https://github.com/Fruithut/INF214_Assignments/blob/master/oblig2/ProofGCD.png)
+![Written proof.](https://github.com/Fruithut/INF214_Assignments/blob/master/oblig2/ProofGCD.png)
