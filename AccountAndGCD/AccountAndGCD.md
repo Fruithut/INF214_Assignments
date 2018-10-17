@@ -24,7 +24,7 @@ In this program the condition in the while loop is (x != y), and the statements 
   - if (x > y)  x = x - y;
   - if (x < y)  y = y - x;
 
-This means that the values of x and y are heading towards eachother, and if x > y && x < y, then x must be equal to y, and hence the condition of the while loop is broken and the program terminates.
+This means that the values of x and y are heading towards eachother, and if neither x > y or x < y, then x must be equal to y, and hence the condition of the while loop is broken and the program terminates.
 
 This all works out if we assume that the inputs are positive, if we have negative inputs however this program
 will not work, take (-10, 30) as an example. The program will find that 30 > -10, and it will then try to decrease
