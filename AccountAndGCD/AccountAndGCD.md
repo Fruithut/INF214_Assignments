@@ -32,6 +32,8 @@ will not work, take (-10, 30) as an example. The program will find that 30 > -10
 
 ### Proof of "gcd"
 
+NB: The proof lacks justification for the atomic blocks (await-rule in concurrent-block (co)) and the proof obligations are usually not written with {} braces.
+
 Prove that if the program terminates, it does so in a state where x=gcd(n,m):
 
 We know that the following properties hold for gcd:
